@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Todo app Test Automation Test Suite">
+
+    <parameter name="username" value="john"/>
+    <parameter name="password" value="demo"/>
+    <parameter name="invalidUsername" value="pavan1"/>
+    <parameter name="invalidPassword" value="pavan1"/>
+    <parameter name="fromAccountId" value="12345"/>
+    <parameter name="balance" value="$100.00"/>
+
+    <test name="Para Bank Test Cases-Create Checking Account/Login" parallel="methods" thread-count="1" enabled="false">
+        <classes>
+            <class name="tests.OpenNewAccountPageTest">
+                <parameter name="accountType" value="CHECKING"/>
+            </class>
+            <class name="tests.WelcomeLoginPageTest"/>
+
+        </classes>
+
+    </test>
+
+    <test name="Para Bank Test Cases-SAVINGS ACCOUNT TYPE" parallel="methods" thread-count="1" enabled="false">
+        <classes>
+            <class name="tests.OpenNewAccountPageTest">
+                <parameter name="accountType" value="SAVINGS"/>
+            </class>
+
+        </classes>
+
+    </test>
+
+    <test name="Para Bank Test Cases-Bill Pay" parallel="methods" thread-count="1" enabled="true">
+        <classes>
+            <class name="tests.BillPayTest">
+                <parameter name="payeeName" value="Pavan"/>
+                <parameter name="payeeAddress" value="68 Jayanagar"/>
+                <parameter name="payeeCity" value="Bangalore"/>
+                <parameter name="payeeState" value="Karnataka"/>
+                <parameter name="payeeZipCode" value="560001"/>
+                <parameter name="payeePhone" value="165845621"/>
+                <parameter name="payeeAmount" value="200"/>
+            </class>
+
+        </classes>
+
+    </test>
+
+
+
+
+
+</suite>
