@@ -21,7 +21,6 @@ public class CommonPage extends BaseTest {
     public BillPayPage clickBillPayLink(){
         clickElement(billPayLink);
         return new BillPayPage();
-
     }
 
     public AccountsOverviewPage clickAccountsOverviewLink(){
@@ -32,13 +31,12 @@ public class CommonPage extends BaseTest {
     public OpenNewAccountPage clickOpenNewAccountLink(){
         clickElement(openNewAccountLink);
         return new OpenNewAccountPage();
-
     }
 
     public Boolean isUserLoggedIn(){
         boolean state = false;
         try {
-            if (isElementDisplayed(welcomeUsernameLabel)) {
+            if (isElementDisplayed(welcomeUsernameLabel,2)) {
                 state = true;
             }
         }catch (Exception e){

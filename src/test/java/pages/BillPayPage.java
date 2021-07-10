@@ -37,15 +37,17 @@ public class BillPayPage extends BaseTest {
     }
 
     public Boolean isBillPaymentCompleteTitleDisplayed(){
-        return isElementDisplayed(billPaymentCompleteTitle);
+        return isElementDisplayed(billPaymentCompleteTitle,10);
     }
 
     public String getBillCompletePayeeName(){
         return getText(payeeNameBillCompleteField);
     }
 
-    public String getBillCompletePayeeAmount(){
-        return getText(payeeAmountBillCompleteField);
+    public Double getBillCompletePayeeAmount(){
+       String billPayeeAmount = getText(payeeAmountBillCompleteField);
+       billPayeeAmount = billPayeeAmount.replace("$","");
+       return Double.valueOf(billPayeeAmount);
     }
 
 

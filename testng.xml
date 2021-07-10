@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="TestingSuite" parallel="none">
+    <parameter name="username" value="john"/>
+    <parameter name="password" value="demo"/>
+    <parameter name="invalidUsername" value="pavan1"/>
+    <parameter name="invalidPassword" value="pavan1"/>
+    <parameter name="fromAccountId" value="13344"/>
+    <parameter name="balance" value="$100.00"/>
+    <parameter name="payeeName" value="Nick"/>
+    <parameter name="payeeAddress" value="68 Flushing DR"/>
+    <parameter name="payeeCity" value="NYC"/>
+    <parameter name="payeeState" value="NY"/>
+    <parameter name="payeeZipCode" value="M1hj3"/>
+    <parameter name="payeePhone" value="12345756"/>
+    <parameter name="payeeAmount" value="200"/>
+
+    <test name="Login test" enabled="false">
+        <classes>
+            <class name="tests.WelcomeLoginPageTest"/>
+
+        </classes>
+    </test>
+
+    <test name="Open New  CHECKING Account Test" enabled="false">
+        <parameter name="accountType" value="CHECKING"/>
+        <classes>
+            <class name="tests.OpenNewAccountPageTest"/>
+        </classes>
+    </test>
+
+    <test name="Open New SAVINGS Account Test" enabled="false">
+        <parameter name="accountType" value="SAVINGS"/>
+        <classes>
+            <class name="tests.OpenNewAccountPageTest"/>
+        </classes>
+    </test>
+
+    <test name="Bill Pay Test" enabled="true">
+        <classes>
+            <class name="tests.BillPayTest"/>
+        </classes>
+    </test>
+</suite>

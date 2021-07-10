@@ -21,26 +21,24 @@ public class OpenNewAccountPage extends BaseTest {
     }
 
     public Boolean isNewAccountOpenedMessageDisplayed() {
-        return isElementDisplayed(accountIsNowOpenSuccessMessage);
+        return isElementDisplayed(accountIsNowOpenSuccessMessage,10);
     }
 
     public Boolean isAccountOpenedTitleDisplayed() {
-        return isElementDisplayed(accountOpenedTitle);
+        return isElementDisplayed(accountOpenedTitle,10);
     }
 
     public String getNewAccountNumber() {
         return getText(newAccountId);
-
     }
 
     public Boolean isOpenNewAccountPageDisplayed() {
-        return isElementDisplayed(openNewAccountTitle);
+        return isElementDisplayed(openNewAccountTitle,10);
     }
 
     public AccountActivityPage clickNewAccountIdLink() {
         clickElement(newAccountId);
         return new AccountActivityPage();
     }
-
 
 }

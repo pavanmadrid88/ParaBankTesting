@@ -15,5 +15,4 @@ public class WelcomeLoginPage extends BaseTest {
         clickElement(loginButton);
         return new AccountsOverviewPage();
     }
-
 }

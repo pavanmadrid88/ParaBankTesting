@@ -9,9 +9,10 @@ import org.testng.annotations.Listeners;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import pages.AccountsOverviewPage;
+import pages.CommonPage;
 import pages.ErrorPage;
 import pages.WelcomeLoginPage;
-
+import org.testng.annotations.Test;
 
 
 @Listeners(CustomListeners.class)
@@ -24,11 +25,17 @@ public class WelcomeLoginPageTest extends BaseClass {
 
 
     @Parameters({"username","password"})
-    @Test(enabled = true)
-    public AccountsOverviewPage validLoginTest(String username,String password){
+    @Test
+    public void validLoginTest(String username,String password){
         try {
             logger.info("Starting Login Test");
             welcomeLoginPage = new WelcomeLoginPage();
+            CommonPage commonPage = new CommonPage();
+
+//            if(commonPage.isUserLoggedIn()){
+//                return;
+//            }
+
             accountsOverviewPage = welcomeLoginPage.login(username, password);
             Assert.assertTrue(accountsOverviewPage.isAccountsOverviewPageDisplayed());
 
@@ -39,11 +46,11 @@ public class WelcomeLoginPageTest extends BaseClass {
             logger.info("Ending Login Test");
         }
 
-        return accountsOverviewPage;
+//        return;
     }
 
     @Parameters({"invalidUsername","invalidPassword"})
-    @Test(enabled = true)
+    @Test
     public void invalidUsernameAndPasswordLoginTest(String invalidUsername,String invalidPassword){
         try {
             welcomeLoginPage = new WelcomeLoginPage();
@@ -58,7 +65,7 @@ public class WelcomeLoginPageTest extends BaseClass {
 
 
     @Parameters({"invalidUsername","password"})
-    @Test(enabled = true)
+    @Test
     public void invalidUsernameAndValidPasswordLoginTest(String invalidUsername,String invalidPassword){
         try {
             welcomeLoginPage = new WelcomeLoginPage();
@@ -72,7 +79,7 @@ public class WelcomeLoginPageTest extends BaseClass {
     }
 
     @Parameters({"username","invalidPassword"})
-    @Test(enabled = true)
+    @Test
     public void validUsernameAndInvalidPasswordLoginTest(String invalidUsername,String invalidPassword){
         try {
             welcomeLoginPage = new WelcomeLoginPage();

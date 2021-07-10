@@ -9,11 +9,11 @@ public class AccountsOverviewPage extends BaseTest {
     By accountsOverviewTitle = By.xpath("//h1[text()='Accounts Overview']");
 
     public Boolean isAccountsOverviewPageDisplayed(){
-        return isElementDisplayed(accountsOverviewTitle);
+        return isElementDisplayed(accountsOverviewTitle,10);
     }
 
     public AccountActivityPage clickAccountIdLink(String accountId){
-        clickElement(By.xpath("//a[@href='activity.htm?id='" + accountId + "]"));
+        clickElement(By.xpath("//a[@href='activity.htm?id=" + accountId + "']"));
         return new AccountActivityPage();
     }
 

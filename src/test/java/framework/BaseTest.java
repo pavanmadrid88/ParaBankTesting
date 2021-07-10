@@ -73,8 +73,6 @@ public class BaseTest {
         driver.manage().window().maximize();
         driver.get(properties.getProperty("url"));
 
-
-
     }
 
     public void enterText(By textFieldLocator, String text){
@@ -89,8 +87,8 @@ public class BaseTest {
         wait.until(ExpectedConditions.elementToBeClickable(elementToBeClickedLocator)).click();
     }
 
-    public Boolean isElementDisplayed(By elementLocator){
-        WebDriverWait wait = new WebDriverWait(driver,10);
+    public Boolean isElementDisplayed(By elementLocator,long seconds){
+        WebDriverWait wait = new WebDriverWait(driver,seconds);
         return wait.until(ExpectedConditions.visibilityOfElementLocated(elementLocator)).isDisplayed();
     }
 
@@ -123,7 +121,6 @@ public class BaseTest {
 
     public static void teardown(){
         CommonPage commonPage = new CommonPage();
-
 
         if(commonPage.isUserLoggedIn()){
            WelcomeLoginPage welcomeLoginPage= commonPage.doLogout();

@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import pages.*;
+import org.testng.annotations.Test;
 
 
 @Listeners(CustomListeners.class)
@@ -23,15 +24,15 @@ public class OpenNewAccountPageTest extends BaseClass {
 
 
     @Parameters({"username","password","accountType","fromAccountId","balance"})
-    @Test
-    public String openNewAccount(String username,String password,String accountType,String fromAccountId,String balance){
+    @Test()
+    public void openNewAccount(String username,String password,String accountType,String fromAccountId,String balance){
         welcomeLoginPageTest = new WelcomeLoginPageTest();
         commonPage = new CommonPage();
 
 
-        //valid login
-        accountsOverviewPage = welcomeLoginPageTest.validLoginTest(username,password);
-        Assert.assertTrue(accountsOverviewPage.isAccountsOverviewPageDisplayed());
+        //login
+        WelcomeLoginPage welcomeLoginPage = new WelcomeLoginPage();
+        welcomeLoginPage.login(username,password);
 
         //land on openNewAccountPage
         openNewAccountPage = commonPage.clickOpenNewAccountLink();
@@ -50,13 +51,9 @@ public class OpenNewAccountPageTest extends BaseClass {
 
         //validate details in accountActivity page
         Assert.assertTrue(accountActivityPage.isAccountDetailsSectionDisplayed());
+        Assert.assertTrue(accountActivityPage.isAccountIdDisplayed());
         Assert.assertTrue(accountActivityPage.isTransactionTableDisplayed());
-        Assert.assertEquals(newAccountId.toString(), accountActivityPage.getAccountNumber());
         Assert.assertEquals(accountType,accountActivityPage.getAccountType());
         Assert.assertEquals(balance,accountActivityPage.getAvailableBalance());
-        Assert.assertEquals(balance,accountActivityPage.getBalance());
-
-        return newAccountId;
-
-    }
+        Assert.assertEquals(balance,accountActivityPage.getBalance());    }
 }

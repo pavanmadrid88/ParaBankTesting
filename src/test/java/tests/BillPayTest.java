@@ -1,44 +1,63 @@
 package tests;
 
 import framework.BaseClass;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import pages.AccountActivityPage;
-import pages.AccountsOverviewPage;
-import pages.BillPayPage;
-import pages.CommonPage;
+import pages.*;
 
-import java.util.Collections;
-import java.util.HashMap;
+import java.text.NumberFormat;
+
 
 public class BillPayTest extends BaseClass {
+    Logger logger = LoggerFactory.getLogger(BillPayTest.class);
 
     @Parameters({"username","password","fromAccountId","balance","payeeName","payeeAddress","payeeCity","payeeState","payeeZipCode","payeePhone","payeeAmount"})
-    @Test
+    @Test(enabled = true)
     public void do200$BillPay(String username, String password, String fromAccountId, String balance
             , String payeeName, String payeeAddress, String payeeCity, String payeeState, String payeeZipCode, String payeePhone,
                               String payeeAmount) {
 
+        //login
+        WelcomeLoginPage welcomeLoginPage = new WelcomeLoginPage();
+        welcomeLoginPage.login(username,password);
 
-        //create savings account
-        OpenNewAccountPageTest openNewAccountPageTest = new OpenNewAccountPageTest();
-        String newSavingsAccountId = openNewAccountPageTest.openNewAccount(username, password, "SAVINGS", fromAccountId, balance);
+        //accounts overview page
+        AccountsOverviewPage accountsOverviewPage = new AccountsOverviewPage();
+        Assert.assertTrue(accountsOverviewPage.isAccountsOverviewPageDisplayed());
 
-        //create checking account
-        String newCheckingAccountId = openNewAccountPageTest.openNewAccount(username, password, "CHECKING", fromAccountId, balance);
-
-        //click on accountOverviewPage
+        //Click on Open New Account Link
         CommonPage commonPage = new CommonPage();
-        AccountsOverviewPage accountsOverviewPage = commonPage.clickAccountsOverviewLink();
-        AccountActivityPage accountActivityPage = accountsOverviewPage.clickAccountIdLink(newCheckingAccountId);
-        String previousFromAccountBalance = accountActivityPage.getBalance();
-        String previousFromAccountAvailableBalance = accountActivityPage.getAvailableBalance();
+        commonPage.clickOpenNewAccountLink();
 
+        //Open new account
+        OpenNewAccountPage openNewAccountPage = new OpenNewAccountPage();
+        openNewAccountPage.openNewAccount("SAVINGS",fromAccountId);
+        String savingsAccountNumber = openNewAccountPage.getNewAccountNumber();
+
+        //Open new Checking Account
+        commonPage.clickOpenNewAccountLink();
+        openNewAccountPage.openNewAccount("CHECKING",fromAccountId);
+        String checkingAccountNumber = openNewAccountPage.getNewAccountNumber();
+
+        //click on accounts overview and land on accounts overview page of checking account
         commonPage.clickAccountsOverviewLink();
-        accountActivityPage = accountsOverviewPage.clickAccountIdLink(newSavingsAccountId);
-        String previousToAccountBalance = accountActivityPage.getBalance();
-        String previousToAccountAvailableBalance = accountActivityPage.getAvailableBalance();
+        accountsOverviewPage.clickAccountIdLink(checkingAccountNumber);
+
+        //capture the previous balance of checking account
+        AccountActivityPage accountActivityPage = new AccountActivityPage();
+        Assert.assertTrue(accountActivityPage.isAccountDetailsSectionDisplayed());
+        Double previousFromAccountBalance = accountActivityPage.getBalance();
+        Double previousFromAccountAvailableBalance = accountActivityPage.getAvailableBalance();
+
+        //capture the previous balance of savings account
+        commonPage.clickAccountsOverviewLink();
+        accountActivityPage = accountsOverviewPage.clickAccountIdLink(savingsAccountNumber);
+
+        Double previousToAccountBalance = accountActivityPage.getBalance();
+        Double previousToAccountAvailableBalance = accountActivityPage.getAvailableBalance();
 
 
         //click on bill pay
@@ -46,22 +65,39 @@ public class BillPayTest extends BaseClass {
 
         //fill payee info
         billPayPage.fillPayeeInfo(payeeName, payeeAddress, payeeCity, payeeState, payeeZipCode, payeePhone,
-                newSavingsAccountId, newSavingsAccountId, payeeAmount, newCheckingAccountId);
+                savingsAccountNumber, savingsAccountNumber, payeeAmount, checkingAccountNumber);
 
         //validate payment complete
         Assert.assertTrue(billPayPage.isBillPaymentCompleteTitleDisplayed());
-        Assert.assertEquals(billPayPage.getBillCompleteFromAccountId(), newCheckingAccountId);
-        Assert.assertEquals(billPayPage.getBillCompletePayeeAmount(), payeeAmount);
+        Assert.assertEquals(billPayPage.getBillCompleteFromAccountId(), checkingAccountNumber);
+        Assert.assertEquals(billPayPage.getBillCompletePayeeAmount(), Double.valueOf(payeeAmount));
         Assert.assertEquals(billPayPage.getBillCompletePayeeName(), payeeName);
 
         //click on accountOverviewPage
         accountsOverviewPage = commonPage.clickAccountsOverviewLink();
         //click on fromAccountId
-        accountActivityPage = accountsOverviewPage.clickAccountIdLink(newCheckingAccountId);
-        Assert.assertTrue(accountActivityPage.checkForTransaction("Bill Payment to" + payeeName));
-        String newFromAccountBalance = accountActivityPage.getBalance();
-        String newFromAccountAvailableBalance = accountActivityPage.getAvailableBalance();
-        Assert.assertEquals(newFromAccountBalance, Float.parseFloat(String.valueOf(previousFromAccountBalance)) - Float.parseFloat(String.valueOf(payeeAmount)));
+        accountActivityPage = accountsOverviewPage.clickAccountIdLink(checkingAccountNumber);
+        Assert.assertTrue(accountActivityPage.checkForTransaction("Bill Payment to " + payeeName));
+        Double newFromAccountBalance = accountActivityPage.getBalance();
+        Double newFromAccountAvailableBalance = accountActivityPage.getAvailableBalance();
+        logger.info("previousFromAccountBalance:" + previousFromAccountBalance);
+        logger.info("payeeAmount:" + payeeAmount);
+        Assert.assertEquals(newFromAccountBalance, previousFromAccountBalance - Double.parseDouble(payeeAmount), 0.0);
+
+        logger.info("newFromAccountBalance:" + newFromAccountBalance);
+        logger.info("newFromAccountAvailableBalance:" + newFromAccountAvailableBalance);
+        logger.info("previousFromAccountBalance:" + previousFromAccountBalance);
+        logger.info("payeeAmount:" + payeeAmount);
+
+        //click on accountOverviewPage
+        accountsOverviewPage = commonPage.clickAccountsOverviewLink();
+
+        accountsOverviewPage.clickAccountIdLink(savingsAccountNumber);
+        Assert.assertTrue(accountActivityPage.checkForTransaction("Funds Transfer Received"));
+
+
+
+
 
 
     }
