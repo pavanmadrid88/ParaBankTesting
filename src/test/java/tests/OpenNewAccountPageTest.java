@@ -22,24 +22,22 @@ public class OpenNewAccountPageTest extends BaseClass {
     Logger logger = LoggerFactory.getLogger(OpenNewAccountPageTest.class);
 
 
-
-    @Parameters({"username","password","accountType","fromAccountId","balance"})
+    @Parameters({"username", "password", "accountType", "fromAccountId", "balance"})
     @Test()
-    public void openNewAccount(String username,String password,String accountType,String fromAccountId,String balance){
+    public void openNewAccount(String username, String password, String accountType, String fromAccountId, String balance) {
         welcomeLoginPageTest = new WelcomeLoginPageTest();
         commonPage = new CommonPage();
 
-
         //login
         WelcomeLoginPage welcomeLoginPage = new WelcomeLoginPage();
-        welcomeLoginPage.login(username,password);
+        welcomeLoginPage.login(username, password);
 
         //land on openNewAccountPage
         openNewAccountPage = commonPage.clickOpenNewAccountLink();
         Assert.assertTrue(openNewAccountPage.isOpenNewAccountPageDisplayed());
 
         //open newAccount
-        openNewAccountPage.openNewAccount(accountType,fromAccountId);
+        openNewAccountPage.openNewAccount(accountType, fromAccountId);
         Assert.assertTrue(openNewAccountPage.isAccountOpenedTitleDisplayed() && openNewAccountPage.isNewAccountOpenedMessageDisplayed());
 
         //getNewAccountId
@@ -53,7 +51,9 @@ public class OpenNewAccountPageTest extends BaseClass {
         Assert.assertTrue(accountActivityPage.isAccountDetailsSectionDisplayed());
         Assert.assertTrue(accountActivityPage.isAccountIdDisplayed());
         Assert.assertTrue(accountActivityPage.isTransactionTableDisplayed());
-        Assert.assertEquals(accountType,accountActivityPage.getAccountType());
-        Assert.assertEquals(balance,accountActivityPage.getAvailableBalance());
-        Assert.assertEquals(balance,accountActivityPage.getBalance());    }
+        Assert.assertEquals(accountType, accountActivityPage.getAccountType());
+        Assert.assertEquals(accountActivityPage.getAvailableBalance(), Double.parseDouble(balance.replace("$", "")), 0.0);
+        Assert.assertEquals(accountActivityPage.getBalance(), Double.parseDouble(balance.replace("$", "")), 0.0);
+
+    }
 }

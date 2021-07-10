@@ -40,6 +40,11 @@ public class AccountActivityPage extends BaseTest {
     }
 
     public String getAccountType() {
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return getText(accountTypeElement);
     }
 

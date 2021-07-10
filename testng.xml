@@ -15,21 +15,21 @@
     <parameter name="payeePhone" value="12345756"/>
     <parameter name="payeeAmount" value="200"/>
 
-    <test name="Login test" enabled="false">
+    <test name="Login test" enabled="true">
         <classes>
             <class name="tests.WelcomeLoginPageTest"/>
 
         </classes>
     </test>
 
-    <test name="Open New  CHECKING Account Test" enabled="false">
+    <test name="Open New  CHECKING Account Test" enabled="true">
         <parameter name="accountType" value="CHECKING"/>
         <classes>
             <class name="tests.OpenNewAccountPageTest"/>
         </classes>
     </test>
 
-    <test name="Open New SAVINGS Account Test" enabled="false">
+    <test name="Open New SAVINGS Account Test" enabled="true">
         <parameter name="accountType" value="SAVINGS"/>
         <classes>
             <class name="tests.OpenNewAccountPageTest"/>
