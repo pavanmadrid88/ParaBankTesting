@@ -31,11 +31,6 @@ public class WelcomeLoginPageTest extends BaseClass {
             logger.info("Starting Login Test");
             welcomeLoginPage = new WelcomeLoginPage();
             CommonPage commonPage = new CommonPage();
-
-//            if(commonPage.isUserLoggedIn()){
-//                return;
-//            }
-
             accountsOverviewPage = welcomeLoginPage.login(username, password);
             Assert.assertTrue(accountsOverviewPage.isAccountsOverviewPageDisplayed());
 
@@ -45,8 +40,6 @@ public class WelcomeLoginPageTest extends BaseClass {
         }finally {
             logger.info("Ending Login Test");
         }
-
-//        return;
     }
 
     @Parameters({"invalidUsername","invalidPassword"})
