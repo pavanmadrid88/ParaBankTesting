@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="TestingSuite" parallel="none">
+<suite name="Para Bank UI Testing" parallel="none">
     <parameter name="username" value="john"/>
     <parameter name="password" value="demo"/>
     <parameter name="invalidUsername" value="pavan1"/>
@@ -18,7 +18,6 @@
     <test name="Login test" enabled="true">
         <classes>
             <class name="tests.WelcomeLoginPageTest"/>
-
         </classes>
     </test>
 

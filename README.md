@@ -33,3 +33,6 @@
 #### Extent HTML report
 The HTML report gives a graphical representation of the test results.
 ![extent-report-html](readme-files/images/extent_report.png)
+
+The HTML report also captures screenshot on failures.
+![extent-report-fail-html](readme-files/images/extent_fail.png)
